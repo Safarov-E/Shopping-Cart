@@ -3,25 +3,25 @@ let carts = document.querySelectorAll('.add-cart');
 let products = [
     {
         name: 'Grey Tshirt',
-        tag: 'greytshirt',
+        tag: 'eddie_bauer',
         price: 15,
         inCart: 0
     },
     {
         name: 'Grey Hoddie',
-        tag: 'greyhoddie',
+        tag: 'townz-grey-plain-hoody',
         price: 20,
         inCart: 0
     },
     {
         name: 'Black Tshirt',
-        tag: 'blacktshirt',
+        tag: '7eae8e9bb5188a64eca9c341ff605679',
         price: 10,
         inCart: 0
     },
     {
         name: 'Grey Tshirt',
-        tag: 'blackhoddie',
+        tag: '6051712014515958_f05e',
         price: 25,
         inCart: 0
     }
@@ -81,4 +81,43 @@ function totalCost(product) {
         localStorage.setItem('totalCost', product.price);
     }
 }
+function displayCart() {
+    let cartItems = localStorage.getItem('productsInCart');
+    cartItems = JSON.parse(cartItems);
+    let productsContainer = document.querySelector('.products');
+    let cartCost = localStorage.getItem('totalCost');
+
+    if(cartItems && productsContainer ) {
+        productsContainer.innerHTML = '';
+        Object.values(cartItems).map(item => {
+            productsContainer.innerHTML += `
+            <div class="product">
+                <ion-icon name="close-circle"></ion-icon>
+                <img src="./images/${item.tag}.jpg">
+                <span>${item.name}</span>
+            </div>
+            <div class="price">$${item.price},00</div>
+            <div class="quantity">
+                <ion-icon name="arrow-dropleft-circle"></ion-icon>
+                <span>${item.inCart}</span>
+                <ion-icon name="arrow-dropright-circle"></ion-icon>
+            </div>
+            <div class="total">
+                $${item.inCart * item.price},00
+            </div>
+            `
+        })
+        productsContainer.innerHTML += `
+            <div class="basketTotalContainer">
+                <h4 class="basketTotalTitle">
+                    Basket Total
+                </h4>
+                <h4 class="basketTotal">
+                    $${cartCost},00
+                </h4>
+            </div>
+        `
+    }
+}
 onLoadCartNumbers();
+displayCart();
